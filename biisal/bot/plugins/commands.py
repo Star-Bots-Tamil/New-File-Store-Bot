@@ -115,10 +115,10 @@ async def start(b, m):
                     parse_mode=ParseMode.HTML,
                     disable_web_page_preview=True)
                 return
-        data = m.command[1]
-        if data.split("-", 1)[0] == "":
-            get_msg_id = data.split("-")[-1].strip()  # Removing the leading "-"
-            get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(get_msg_id))
+
+        if usr_cmd.startswith("-"):
+            get_msg_ids = usr_cmd.split("File-")[-1]  # Removing the leading "-"
+            get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(get_msg_ids))
             if get_msg.video:
                 await m.reply_video(video=get_msg.video.file_id)
             elif get_msg.document:
