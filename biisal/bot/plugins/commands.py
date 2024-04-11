@@ -114,7 +114,7 @@ async def start(b, m):
                     parse_mode=ParseMode.HTML,
                     disable_web_page_preview=True)
                 return
-    if usr_cmd == "":
+    if usr_cmd == "Star_Bots_Tamil_":
         get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(usr_cmd))
 
         file_size = None
