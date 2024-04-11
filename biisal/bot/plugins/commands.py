@@ -144,8 +144,8 @@ async def start(b, m):
                 text=msg_text.format(file_name, file_size, online_link, stream_link, tg_file),
                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⚡ Download Now ⚡", url=stream_link)]])
             )
-        elif usr_cmd.startswith("_Telegram_File_"):
-            get_msg_id = usr_cmd.split("Telegram_File_")[-1]
+        elif usr_cmd.startswith("-"):
+            get_msg_id = usr_cmd[1:]  # Removing the leading "-"
             try:
                 get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(get_msg_id))
                 if get_msg.video:
@@ -154,6 +154,9 @@ async def start(b, m):
                     await m.reply_document(document=get_msg.document.file_id)
             except ValueError:
                 await m.reply_text("Invalid file ID. Please provide a valid file ID.")
+        else:
+            # Send text message for other cases starting with underscore
+            await m.reply_text(usr_cmd)
 
 @StreamBot.on_message(filters.command("help") & filters.private )
 async def help_cd(b, m):
