@@ -27,6 +27,8 @@ async def start(b, m):
             Var.NEW_USER_LOG,
             f"**Nᴇᴡ Usᴇʀ Jᴏɪɴᴇᴅ:** \n\n__Mʏ Nᴇᴡ Fʀɪᴇɴᴅ__ [{m.from_user.first_name}](tg://user?id={m.from_user.id}) __Sᴛᴀʀᴛᴇᴅ Yᴏᴜʀ Bᴏᴛ !!__"
         )
+    usr_cmd = m.text.split("_")[-1]
+    if usr_cmd == "/start":
     if Var.UPDATES_CHANNEL != "None":
         try:
             user = await b.get_chat_member(Var.UPDATES_CHANNEL, m.chat.id)
@@ -79,6 +81,71 @@ async def start(b, m):
         ]
     )
 )
+
+    else:
+        if Var.UPDATES_CHANNEL != "None":
+            try:
+                user = await b.get_chat_member(Var.UPDATES_CHANNEL, m.chat.id)
+                if user.status == "kicked":
+                    await b.send_message(
+                        chat_id=m.chat.id,
+                        text="<b>Sorry <a href='tg://user?id={m.from_user.id}>{m..first_name}</a>,\nYou're Banned 🚫 To Use Me❓.\n\n Contact Developer <a href='https://t.me/Star_Bots_Tamil_Support'>Star Bots Tamil Support</a> They will Help You.</b>",
+                        parse_mode=ParseMode.HTML,
+                        disable_web_page_preview=True
+                    )
+                    return
+            except UserNotParticipant:
+                await b.send_message(
+                    chat_id=m.chat.id,
+                    text="<b>Please Join Our Updates Channel to Use Me❗\n\nDue To Overload, Only Channel Subscribers Can Use to Me❗.</b>",
+                    reply_markup=InlineKeyboardMarkup(
+                        [[
+                          InlineKeyboardButton("🤖 Join Our Bot Channel", url=f"https://t.me/{Var.UPDATES_CHANNEL}")],
+                         [InlineKeyboardButton("🔄 Refresh / Try Again", url=f"https://t.me/{(await b.get_me()).username}?start=Star_Bots_Tamil_{usr_cmd}")
+                        
+                        ]]
+                    ),
+                    parse_mode=ParseMode.HTML
+                )
+                return
+            except Exception:
+                await b.send_message(
+                    chat_id=m.chat.id,
+                    text="<b>Something Wrong❗\nYou're Not Added Admin to Update Channel.\n\n👥 Support :- <a href=https://t.me/Star_Bots_Tamil_Support><b>Star Bots Tamil Support</b></a></b>",
+                    parse_mode=ParseMode.HTML,
+                    disable_web_page_preview=True)
+                return
+            
+        get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(usr_cmd))
+
+        file_size = None
+        if get_msg.video:
+            file_size = f"{humanbytes(get_msg.video.file_size)}"
+        elif get_msg.document:
+            file_size = f"{humanbytes(get_msg.document.file_size)}"
+        elif get_msg.audio:
+            file_size = f"{humanbytes(get_msg.audio.file_size)}"
+
+        file_name = None
+        if get_msg.video:
+            file_name = f"{get_msg.video.file_name}"
+        elif get_msg.document:
+            file_name = f"{get_msg.document.file_name}"
+        elif get_msg.audio:
+            file_name = f"{get_msg.audio.file_name}"
+
+        stream_link = "https://{}/{}".format(Var.FQDN, get_msg.id) if Var.ON_HEROKU or Var.NO_PORT else \
+            "http://{}:{}/{}".format(Var.FQDN,
+                                     Var.PORT,
+                                     get_msg.id)
+
+        msg_text = "**ᴛᴏᴜʀ ʟɪɴᴋ ɪs ɢᴇɴᴇʀᴀᴛᴇᴅ...⚡\n\n📧 ғɪʟᴇ ɴᴀᴍᴇ :-\n{}\n {}\n\n💌 ᴅᴏᴡɴʟᴏᴀᴅ ʟɪɴᴋ :- {}\n\n♻️ ᴛʜɪs ʟɪɴᴋ ɪs ᴘᴇʀᴍᴀɴᴇɴᴛ ᴀɴᴅ ᴡᴏɴ'ᴛ ɢᴇᴛ ᴇxᴘɪʀᴇᴅ ♻️\n\n<b>❖ YouTube.com/@itzjeol</b>**"
+        await m.reply_text(            
+            text=msg_text.format(file_name, file_size, stream_link),
+            
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⚡ ᴅᴏᴡɴʟᴏᴀᴅ ɴᴏᴡ ⚡", url=stream_link)]])
+        )
+        
 @StreamBot.on_message(filters.command("help") & filters.private )
 async def help_cd(b, m):
     if not await db.is_user_exist(m.from_user.id):
