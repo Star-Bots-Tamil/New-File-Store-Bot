@@ -114,7 +114,7 @@ async def start(b, m):
                     parse_mode=ParseMode.HTML,
                     disable_web_page_preview=True)
                 return
-    if usr_cmd = m.text.split("Star_Bots_Tamil_")[-1]
+    if usr_cmd == "":
         get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(usr_cmd))
 
         file_size = None
@@ -144,11 +144,11 @@ async def start(b, m):
         )
     else:
         usr_cmd = m.text.split("Telegram_File_")[-1]
-            get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(usr_cmd))
-            if get_msg.video:
-                await m.reply_video(video=get_msg.video.file_id)
-            elif get_msg.document:
-                await m.reply_document(document=get_msg.document.file_id)
+        get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(usr_cmd))
+        if get_msg.video:
+            await m.reply_video(video=get_msg.video.file_id)
+        elif get_msg.document:
+            await m.reply_document(document=get_msg.document.file_id)
 
 @StreamBot.on_message(filters.command("help") & filters.private )
 async def help_cd(b, m):
