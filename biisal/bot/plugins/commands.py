@@ -116,8 +116,8 @@ async def start(b, m):
                     disable_web_page_preview=True)
                 return
 
-            get_msg_id = usr_cmd.split("Star_Bots_Tamil_")[-1]
-            get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(get_msg_id))
+            get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(usr_cmd))
+
             file_size = None
             if get_msg.video:
                 file_size = f"{humanbytes(get_msg.video.file_size)}"
