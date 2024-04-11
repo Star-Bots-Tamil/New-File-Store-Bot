@@ -52,7 +52,6 @@ async def start(b, m):
                             InlineKeyboardButton("Join now ✔︎", url=f"https://t.me/{Var.UPDATES_CHANNEL}")
                         ]]
                     ),
-
                 )
                 return
             except Exception:
@@ -73,7 +72,6 @@ async def start(b, m):
                         InlineKeyboardButton("Help 😅", callback_data="help")
                     ],
                     [InlineKeyboardButton("Bot Updates 🚩", url=movie_laab)],
-
                     [
                         InlineKeyboardButton("Disclaimer 🔻", url=f"https://t.me/Star_Bots_Tamil"),
                         InlineKeyboardButton("Dev 😊", callback_data="aboutDev")
@@ -100,10 +98,8 @@ async def start(b, m):
                     text="<b>Please Join Our Updates Channel to Use Me❗\n\nDue To Overload, Only Channel Subscribers Can Use to Me❗.</b>",
                     reply_markup=InlineKeyboardMarkup(
                         [[
-                            InlineKeyboardButton("🤖 Join Our Bot Channel", url=f"https://t.me/{Var.UPDATES_CHANNEL}")],
-                            [InlineKeyboardButton("🔄 Refresh / Try Again", url=f"https://t.me/{(await b.get_me()).username}?start=Star_Bots_Tamil_{usr_cmd}")
-
-                        ]]
+                            InlineKeyboardButton("🤖 Join Our Bot Channel", url=f"https://t.me/{Var.UPDATES_CHANNEL}")
+                        ]],
                     ),
                     parse_mode=ParseMode.HTML
                 )
@@ -116,32 +112,18 @@ async def start(b, m):
                     disable_web_page_preview=True)
                 return
 
+        try:
             get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(usr_cmd))
-
-            file_size = None
             if get_msg.video:
-                file_size = f"{humanbytes(get_msg.video.file_size)}"
+                await m.reply_video(video=get_msg.video.file_id)
             elif get_msg.document:
-                file_size = f"{humanbytes(get_msg.document.file_size)}"
+                await m.reply_document(document=get_msg.document.file_id)
             elif get_msg.audio:
-                file_size = f"{humanbytes(get_msg.audio.file_size)}"
-
-            file_name = None
-            if get_msg.video:
-                file_name = f"{get_msg.video.file_name}"
-            elif get_msg.document:
-                file_name = f"{get_msg.document.file_name}"
-            elif get_msg.audio:
-                file_name = f"{get_msg.audio.file_name}"
-
-            stream_link = f"{Var.URL}watch/{str(get_msg.id)}/{quote_plus(get_name(get_msg))}?hash={get_hash(get_msg)}"
-            online_link = f"{Var.URL}{str(get_msg.id)}/{quote_plus(get_name(get_msg))}?hash={get_hash(get_msg)}"
-            tg_file = f"https://t.me/{(await b.get_me()).username}?start=Telegram_File_{str(get_msg.id)}"
-            msg_text = "**Your Link is Generated...⚡\n\n📂 File Name :-\n{}\n🗄️ File Size :- {}\n\n💌 Download Link :- {}\n\n📺 Watch Online :- {}\n\n📂 Telegram File :- {}\n\n♻️ This Link is Permanent and Won't Get Expired ♻️\n\n<b>❖ @Star_Moviess_Tamil</b>**"
-            await m.reply_text(
-                text=msg_text.format(file_name, file_size, online_link, stream_link, tg_file),
-                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⚡ Download Now ⚡", url=stream_link)]])
-            )
+                await m.reply_audio(audio=get_msg.audio.file_id)
+            elif get_msg.photo:
+                await m.reply_photo(photo=get_msg.photo[-1].file_id)  # Reply with the last photo in the list
+        except ValueError:
+            await m.reply_text("Invalid file ID. Please provide a valid file ID.")
 
 @StreamBot.on_message(filters.command("help") & filters.private )
 async def help_cd(b, m):
