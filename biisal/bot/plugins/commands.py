@@ -116,7 +116,18 @@ async def start(b, m):
                     disable_web_page_preview=True)
                 return
 
-        if usr_cmd.startswith("_Star_Bots_Tamil_"):
+        if usr_cmd.startswith("-"):
+            get_msg_id = usr_cmd[1:]  # Removing the leading "-"
+            try:
+                get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(get_msg_id))
+                if get_msg.video:
+                    await m.reply_video(video=get_msg.video.file_id)
+                elif get_msg.document:
+                    await m.reply_document(document=get_msg.document.file_id)
+            except ValueError:
+                await m.reply_text("Invalid file ID. Please provide a valid file ID.")
+        else:
+            # Send text message for other cases starting with underscore
             get_msg_id = usr_cmd.split("Star_Bots_Tamil_")[-1]
             get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(get_msg_id))
 
@@ -144,19 +155,6 @@ async def start(b, m):
                 text=msg_text.format(file_name, file_size, online_link, stream_link, tg_file),
                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⚡ Download Now ⚡", url=stream_link)]])
             )
-        elif usr_cmd.startswith("-"):
-            get_msg_id = usr_cmd[1:]  # Removing the leading "-"
-            try:
-                get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(get_msg_id))
-                if get_msg.video:
-                    await m.reply_video(video=get_msg.video.file_id)
-                elif get_msg.document:
-                    await m.reply_document(document=get_msg.document.file_id)
-            except ValueError:
-                await m.reply_text("Invalid file ID. Please provide a valid file ID.")
-        else:
-            # Send text message for other cases starting with underscore
-            await m.reply_text(usr_cmd)
 
 @StreamBot.on_message(filters.command("help") & filters.private )
 async def help_cd(b, m):
