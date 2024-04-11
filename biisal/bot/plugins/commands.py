@@ -115,9 +115,9 @@ async def start(b, m):
                     parse_mode=ParseMode.HTML,
                     disable_web_page_preview=True)
                 return
-
-        if usr_cmd.startswith("-"):
-            get_msg_id = usr_cmd.split("-")[-1].strip()  # Removing the leading "-"
+        data = m.command[1]
+        if data.split("-", 1)[0] == "":
+            get_msg_id = data.split("-")[-1].strip()  # Removing the leading "-"
             get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(get_msg_id))
             if get_msg.video:
                 await m.reply_video(video=get_msg.video.file_id)
