@@ -6,12 +6,14 @@ from biisal.bot.plugins.stream import MY_PASS
 from biisal.utils.human_readable import humanbytes
 from biisal.utils.database import Database
 from pyrogram import filters
+from urllib.parse import quote_plus
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import UserNotParticipant
 from biisal.utils.file_properties import get_name, get_hash, get_media_file_size
 db = Database(Var.DATABASE_URL, Var.name)
 from pyrogram.types import ReplyKeyboardMarkup
 from biisal.vars import bot_name , mv_rockers , movie_laab
+from biisal.utils.file_properties import get_name, get_hash, get_media_file_size
 
 SRT_TXT = """<b>𝙷𝚢 {} ㋛︎!,
 I ᴀᴍ Fɪʟᴇ ᴛᴏ Lɪɴᴋ Gᴇɴᴇʀᴀᴛᴏʀ Bᴏᴛ ᴡɪᴛʜ Cʜᴀɴɴᴇʟ sᴜᴘᴘᴏʀᴛ.
@@ -131,9 +133,9 @@ async def start(b, m):
         elif get_msg.audio:
             file_name = f"{get_msg.audio.file_name}"
 
-        stream_link = f"{Var.URL}watch/{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
-        online_link = f"{Var.URL}{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
-        tg_file = f"https://t.me/{(await bot.get_me()).username}?start=Telegram_File_{str(log_msg.id)}"
+        stream_link = f"{Var.URL}watch/{str(get_msg.id)}/{quote_plus(get_name(get_msg))}?hash={get_hash(get_msg)}"
+        online_link = f"{Var.URL}{str(get_msg.id)}/{quote_plus(get_name(get_msg))}?hash={get_hash(get_msg)}"
+        tg_file = f"https://t.me/{(await b.get_me()).username}?start=Telegram_File_{str(get_msg.id)}"
         msg_text = "**Your Link is Generated...⚡\n\n📂 File Name :-\n{}\n🗄️ File Size :- {}\n\n💌 Download Link :- {}\n\n📺 Watch Online :- {}\n\n📂 Telegram File :- {}\n\n♻️ This Link is Permanent and Won't Get Expired ♻️\n\n<b>❖ @Star_Moviess_Tamil</b>**"
         await m.reply_text(
             text=msg_text.format(file_name, file_size, online_link, stream_link, tg_file),
