@@ -29,7 +29,7 @@ async def start(b, m):
             Var.NEW_USER_LOG,
             f"**New User Joined:** \n\n__My New Friend__ [{m.from_user.first_name}](tg://user?id={m.from_user.id}) __Started Your Bot !!__"
         )
-    usr_cmd = m.text.split("_")[-1].split()[0]
+    usr_cmd = m.text.split("_")[-1]
     if usr_cmd == "/start":
         if Var.UPDATES_CHANNEL != "None":
             try:
@@ -114,42 +114,43 @@ async def start(b, m):
                     parse_mode=ParseMode.HTML,
                     disable_web_page_preview=True)
                 return
-    if usr_cmd == "/start":
-        usr_cmd = m.text.split("Star_Bots_Tamil_")[-1]
-        get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(usr_cmd))
+        if usr_cmd == "":
+            usr_cmd = m.text.split("Star_Bots_Tamil_")[-1]
+            get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(usr_cmd))
 
-        file_size = None
-        if get_msg.video:
-            file_size = f"{humanbytes(get_msg.video.file_size)}"
-        elif get_msg.document:
-            file_size = f"{humanbytes(get_msg.document.file_size)}"
-        elif get_msg.audio:
-            file_size = f"{humanbytes(get_msg.audio.file_size)}"
+            file_size = None
+            if get_msg.video:
+                file_size = f"{humanbytes(get_msg.video.file_size)}"
+            elif get_msg.document:
+                file_size = f"{humanbytes(get_msg.document.file_size)}"
+            elif get_msg.audio:
+                file_size = f"{humanbytes(get_msg.audio.file_size)}"
 
-        file_name = None
-        if get_msg.video:
-            file_name = f"{get_msg.video.file_name}"
-        elif get_msg.document:
-            file_name = f"{get_msg.document.file_name}"
-        elif get_msg.audio:
-            file_name = f"{get_msg.audio.file_name}"
+            file_name = None
+            if get_msg.video:
+                file_name = f"{get_msg.video.file_name}"
+            elif get_msg.document:
+                file_name = f"{get_msg.document.file_name}"
+            elif get_msg.audio:
+                file_name = f"{get_msg.audio.file_name}"
 
-        stream_link = f"{Var.URL}watch/{str(get_msg.id)}/{quote_plus(get_name(get_msg))}?hash={get_hash(get_msg)}"
-        online_link = f"{Var.URL}{str(get_msg.id)}/{quote_plus(get_name(get_msg))}?hash={get_hash(get_msg)}"
-        tg_file = f"https://t.me/{(await b.get_me()).username}?start=Telegram_File_{str(get_msg.id)}"
-        msg_text = "**Your Link is Generated...⚡\n\n📂 File Name :-\n{}\n🗄️ File Size :- {}\n\n💌 Download Link :- {}\n\n📺 Watch Online :- {}\n\n📂 Telegram File :- {}\n\n♻️ This Link is Permanent and Won't Get Expired ♻️\n\n<b>❖ @Star_Moviess_Tamil</b>**"
-        await m.reply_text(
-            text=msg_text.format(file_name, file_size, online_link, stream_link, tg_file),
+            stream_link = f"{Var.URL}watch/{str(get_msg.id)}/{quote_plus(get_name(get_msg))}?hash={get_hash(get_msg)}"
+            online_link = f"{Var.URL}{str(get_msg.id)}/{quote_plus(get_name(get_msg))}?hash={get_hash(get_msg)}"
+            tg_file = f"https://t.me/{(await b.get_me()).username}?start=Telegram_File_{str(get_msg.id)}"
+            msg_text = "**Your Link is Generated...⚡\n\n📂 File Name :-\n{}\n🗄️ File Size :- {}\n\n💌 Download Link :- {}\n\n📺 Watch Online :- {}\n\n📂 Telegram File :- {}\n\n♻️ This Link is Permanent and Won't Get Expired ♻️\n\n<b>❖ @Star_Moviess_Tamil</b>**"
+            await m.reply_text(
+                text=msg_text.format(file_name, file_size, online_link, stream_link, tg_file),
 
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⚡ Download Now ⚡", url=stream_link)]])
-        )
-    else:
-        usr_cmd = m.text.split("Telegram_File_")[-1]
-        get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(usr_cmd))
-        if get_msg.video:
-            await m.reply_video(video=get_msg.video.file_id)
-        elif get_msg.document:
-            await m.reply_document(document=get_msg.document.file_id)
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⚡ Download Now ⚡", url=stream_link)]])
+            )
+        else:
+            usr_cmd = m.text.split("Telegram_File_")[-1]
+            get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(usr_cmd))
+            if get_msg.video:
+                await m.reply_video(video=get_msg.video.file_id)
+            elif get_msg.document:
+                await m.reply_document(document=get_msg.document.file_id)
+        
 
 @StreamBot.on_message(filters.command("help") & filters.private )
 async def help_cd(b, m):
