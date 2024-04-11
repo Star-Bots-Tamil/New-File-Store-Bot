@@ -29,6 +29,7 @@ async def start(b, m):
             Var.NEW_USER_LOG,
             f"**New User Joined:** \n\n__My New Friend__ [{m.from_user.first_name}](tg://user?id={m.from_user.id}) __Started Your Bot !!__"
         )
+
     usr_cmd = m.text.split("_")[-1]
     if usr_cmd == "/start":
         if Var.UPDATES_CHANNEL != "None":
@@ -115,8 +116,9 @@ async def start(b, m):
                     disable_web_page_preview=True)
                 return
 
-        if usr_cmd = m.text.split("Star_Bots_Tamil_")[-1]
-            get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(usr_cmd))
+        if usr_cmd.startswith("Star_Bots_Tamil_"):
+            get_msg_id = usr_cmd.split("Star_Bots_Tamil_")[-1]
+            get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(get_msg_id))
 
             file_size = None
             if get_msg.video:
@@ -140,17 +142,21 @@ async def start(b, m):
             msg_text = "**Your Link is Generated...⚡\n\n📂 File Name :-\n{}\n🗄️ File Size :- {}\n\n💌 Download Link :- {}\n\n📺 Watch Online :- {}\n\n📂 Telegram File :- {}\n\n♻️ This Link is Permanent and Won't Get Expired ♻️\n\n<b>❖ @Star_Moviess_Tamil</b>**"
             await m.reply_text(
                 text=msg_text.format(file_name, file_size, online_link, stream_link, tg_file),
-
                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⚡ Download Now ⚡", url=stream_link)]])
             )
-          elif  usr_cmd = m.text.split("Telegram_File_")[-1]
-            get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(usr_cmd))
-            if get_msg.video:
-                await m.reply_video(video=get_msg.video.file_id)
-            elif get_msg.document:
-                await m.reply_document(document=get_msg.document.file_id)
+        elif usr_cmd.startswith("Telegram_File_"):
+            get_msg_id = usr_cmd.split("Telegram_File_")[-1]
+            try:
+                get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(get_msg_id))
+                if get_msg.video:
+                    await m.reply_video(video=get_msg.video.file_id)
+                elif get_msg.document:
+                    await m.reply_document(document=get_msg.document.file_id)
+            except ValueError:
+                await m.reply_text("Invalid file ID. Please provide a valid file ID.")
         else:
-             await m.reply_text("Invalid command")
+            await m.reply_text("Invalid command")
+            
 
 @StreamBot.on_message(filters.command("help") & filters.private )
 async def help_cd(b, m):
