@@ -127,11 +127,6 @@ async def start(b, m):
             # Send text message for other cases starting with underscore
             get_msg_id = usr_cmd.split("Star_Bots_Tamil_")[-1]
             get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(get_msg_id))
-            get_msgs = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(get_msg_ids))
-            if get_msgs.video:
-                await m.reply_video(video=get_msgs.video.file_id)
-            elif get_msgs.document:
-                await m.reply_document(document=get_msgs.document.file_id)
             file_size = None
             if get_msg.video:
                 file_size = f"{humanbytes(get_msg.video.file_size)}"
