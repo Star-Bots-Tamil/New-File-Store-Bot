@@ -154,9 +154,6 @@ async def start(b, m):
                     await m.reply_document(document=get_msg.document.file_id)
             except ValueError:
                 await m.reply_text("Invalid file ID. Please provide a valid file ID.")
-        else:
-            await m.reply_text("Invalid command")
-            
 
 @StreamBot.on_message(filters.command("help") & filters.private )
 async def help_cd(b, m):
