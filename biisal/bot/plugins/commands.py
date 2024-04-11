@@ -116,7 +116,7 @@ async def start(b, m):
                     disable_web_page_preview=True)
                 return
 
-        if usr_cmd.startswith("Star_Bots_Tamil_"):
+        if usr_cmd.startswith("_Star_Bots_Tamil_"):
             get_msg_id = usr_cmd.split("Star_Bots_Tamil_")[-1]
             get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(get_msg_id))
 
@@ -144,7 +144,7 @@ async def start(b, m):
                 text=msg_text.format(file_name, file_size, online_link, stream_link, tg_file),
                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⚡ Download Now ⚡", url=stream_link)]])
             )
-        elif usr_cmd.startswith("Telegram_File_"):
+        elif usr_cmd.startswith("_Telegram_File_"):
             get_msg_id = usr_cmd.split("Telegram_File_")[-1]
             try:
                 get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(get_msg_id))
