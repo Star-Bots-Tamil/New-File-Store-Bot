@@ -131,14 +131,12 @@ async def start(b, m):
         elif get_msg.audio:
             file_name = f"{get_msg.audio.file_name}"
 
-        stream_link = "https://{}/{}".format(Var.FQDN, get_msg.id) if Var.ON_HEROKU or Var.NO_PORT else \
-            "http://{}:{}/{}".format(Var.FQDN,
-                                     Var.PORT,
-                                     get_msg.id)
-
-        msg_text = "**Your Link is Generated...⚡\n\n📂 File Name :-\n{}\n🗄️ File Size :- {}\n\n💌 Download Link :- {}\n\n♻️ This Link is Permanent and Won't Get Expired ♻️\n\n<b>❖ @Star_Moviess_Tamil</b>**"
+        stream_link = f"{Var.URL}watch/{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
+        online_link = f"{Var.URL}{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
+        tg_file = f"https://t.me/{(await bot.get_me()).username}?start=Telegram_File_{str(log_msg.id)}"
+        msg_text = "**Your Link is Generated...⚡\n\n📂 File Name :-\n{}\n🗄️ File Size :- {}\n\n💌 Download Link :- {}\n\n📺 Watch Online :- {}\n\n📂 Telegram File :- {}\n\n♻️ This Link is Permanent and Won't Get Expired ♻️\n\n<b>❖ @Star_Moviess_Tamil</b>**"
         await m.reply_text(
-            text=msg_text.format(file_name, file_size, stream_link),
+            text=msg_text.format(file_name, file_size, online_link, stream_link, tg_file),
 
             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⚡ Download Now ⚡", url=stream_link)]])
         )
