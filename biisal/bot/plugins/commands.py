@@ -116,16 +116,6 @@ async def start(b, m):
                     disable_web_page_preview=True)
                 return
 
-        if m.text.split("-", 1)[0] == "File":
-            get_msg_ids = usr_cmd.split("File-")[-1]  # Removing the leading "-"
-            get_msgs = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(get_msg_ids))
-            if get_msgs.video:
-                await m.reply_video(video=get_msgs.video.file_id)
-            elif get_msgs.document:
-                await m.reply_document(document=get_msgs.document.file_id)
-   #     else:
-            # Send text message for other cases starting with underscore
-        elif m.text.split("-", 1)[0] == "Star_Bots_Tamil":
             get_msg_id = usr_cmd.split("Star_Bots_Tamil_")[-1]
             get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(get_msg_id))
             file_size = None
@@ -152,7 +142,6 @@ async def start(b, m):
                 text=msg_text.format(file_name, file_size, online_link, stream_link, tg_file),
                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⚡ Download Now ⚡", url=stream_link)]])
             )
-            return
 
 @StreamBot.on_message(filters.command("help") & filters.private )
 async def help_cd(b, m):
