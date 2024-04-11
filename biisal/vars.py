@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 
 load_dotenv()
-bot_name = "File To Link Bot"
+bot_name = "File Store Bot"
 mv_rockers = "https://t.me/Star_Moviess_Tamil"
 movie_laab = "https://t.me/Star_Bots_Tamil"
 
