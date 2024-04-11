@@ -25,62 +25,59 @@ async def start(b, m):
         await db.add_user(m.from_user.id)
         await b.send_message(
             Var.NEW_USER_LOG,
-            f"**Nᴇᴡ Usᴇʀ Jᴏɪɴᴇᴅ:** \n\n__Mʏ Nᴇᴡ Fʀɪᴇɴᴅ__ [{m.from_user.first_name}](tg://user?id={m.from_user.id}) __Sᴛᴀʀᴛᴇᴅ Yᴏᴜʀ Bᴏᴛ !!__"
+            f"**New User Joined:** \n\n__My New Friend__ [{m.from_user.first_name}](tg://user?id={m.from_user.id}) __Started Your Bot !!__"
         )
     usr_cmd = m.text.split("_")[-1]
     if usr_cmd == "/start":
-    if Var.UPDATES_CHANNEL != "None":
-        try:
-            user = await b.get_chat_member(Var.UPDATES_CHANNEL, m.chat.id)
-            if user.status == "kicked":
-                await b.send_message(
+        if Var.UPDATES_CHANNEL != "None":
+            try:
+                user = await b.get_chat_member(Var.UPDATES_CHANNEL, m.chat.id)
+                if user.status == "kicked":
+                    await b.send_message(
+                        chat_id=m.chat.id,
+                        text="__Sorry, You Are Banned From Me☠︎︎. Contact The Developer__\n\n  **He Will Help You**",
+                        disable_web_page_preview=True
+                    )
+                    return
+            except UserNotParticipant:
+                await StreamBot.send_photo(
                     chat_id=m.chat.id,
-                    text="__Sᴏʀʀʏ, Yᴏᴜ Aʀᴇ Bᴀɴɴᴇᴅ Fʀᴏᴍ Mᴇ☠︎︎. 𝐂𝐨𝐧𝐝𝐚𝐜𝐭 𝐓𝐡𝐞 𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫__\n\n  **𝙃𝙚 𝗪𝗶𝗹𝗹 𝗛𝗲𝗹𝗽 𝗬𝗼𝘂**",
-                    disable_web_page_preview=True
+                    photo="https://graph.org/file/1412d9f93d77c350d8268.jpg",
+                    caption=""""<b>Hey there!\n\nPlease join our updates channel to use me! 😊\n\nDue to server overload, only our channel subscribers can use this bot! Sorry㋛︎</b>""",
+                    reply_markup=InlineKeyboardMarkup(
+                        [[
+                            InlineKeyboardButton("Join now ✔︎", url=f"https://t.me/{Var.UPDATES_CHANNEL}")
+                        ]]
+                    ),
+
                 )
                 return
-        except UserNotParticipant:
-             await StreamBot.send_photo(
-                chat_id=m.chat.id,
-                photo="https://graph.org/file/1412d9f93d77c350d8268.jpg",
-                caption=""""<b>Hᴇʏ ᴛʜᴇʀᴇ!\n\nPʟᴇᴀsᴇ ᴊᴏɪɴ ᴏᴜʀ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ᴛᴏ ᴜsᴇ ᴍᴇ ! 😊\n\nDᴜᴇ ᴛᴏ sᴇʀᴠᴇʀ ᴏᴠᴇʀʟᴏᴀᴅ, ᴏɴʟʏ ᴏᴜʀ ᴄʜᴀɴɴᴇʟ sᴜʙsᴄʀɪʙᴇʀs ᴄᴀɴ ᴜsᴇ ᴛʜɪs ʙᴏᴛ ! 𝚂𝚘𝚛𝚛𝚢㋛︎</b>""",
-                reply_markup=InlineKeyboardMarkup(
+            except Exception:
+                await b.send_message(
+                    chat_id=m.chat.id,
+                    text="<b>Something went wrong. Please <a href='https://t.me/Star_Bots_Tamil'>click here for support</a></b>",
+                    disable_web_page_preview=True)
+                return
+        await StreamBot.send_photo(
+            chat_id=m.chat.id,
+            photo="https://graph.org/file/1412d9f93d77c350d8268.jpg",
+            caption= SRT_TXT.format(m.from_user.mention(style="md")),
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [InlineKeyboardButton("Update Channel 🤡", url=mv_rockers)],
                     [
-                        [
-                            InlineKeyboardButton("Jᴏɪɴ ɴᴏᴡ ✔︎", url=f"https://t.me/{Var.UPDATES_CHANNEL}")
-                        ]
-                    ]
-                ),
-                
-            )
-             return
-        except Exception:
-            await b.send_message(
-                chat_id=m.chat.id,
-                text="<b>sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ ᴡʀᴏɴɢ.ᴘʟᴇᴀsᴇ <a href='https://t.me/Star_Bots_Tamil'>ᴄʟɪᴄᴋ ʜᴇʀᴇ ғᴏʀ sᴜᴘᴘᴏʀᴛ</a></b>",
-                
-                disable_web_page_preview=True)
-            return
-    await StreamBot.send_photo(
-    chat_id=m.chat.id,
-    photo="https://graph.org/file/1412d9f93d77c350d8268.jpg",
-    caption= SRT_TXT.format(m.from_user.mention(style="md")),
-    reply_markup=InlineKeyboardMarkup(
-        [
-            [InlineKeyboardButton("ᴜᴘᴅᴀᴛᴇ ᴄʜᴀɴɴᴇʟ 🤡", url=mv_rockers)],
-            [
-                 InlineKeyboardButton("ᴀʙᴏᴜᴛ 😎", callback_data="about"),
-                 InlineKeyboardButton("ʜᴇʟᴘ 😅", callback_data="help")
-            ],
-            [InlineKeyboardButton("Bot Updates 🚩", url=movie_laab)],
+                        InlineKeyboardButton("About 😎", callback_data="about"),
+                        InlineKeyboardButton("Help 😅", callback_data="help")
+                    ],
+                    [InlineKeyboardButton("Bot Updates 🚩", url=movie_laab)],
 
-            [
-                 InlineKeyboardButton("ᴅɪsᴄʟᴀɪᴍᴇʀ 🔻", url=f"https://t.me/Star_Bots_Tamil"),
-                 InlineKeyboardButton("ᴅᴇᴠ 😊", callback_data="aboutDev")
-            ]
-        ]
-    )
-)
+                    [
+                        InlineKeyboardButton("Disclaimer 🔻", url=f"https://t.me/Star_Bots_Tamil"),
+                        InlineKeyboardButton("Dev 😊", callback_data="aboutDev")
+                    ]
+                ]
+            )
+        )
 
     else:
         if Var.UPDATES_CHANNEL != "None":
@@ -100,9 +97,9 @@ async def start(b, m):
                     text="<b>Please Join Our Updates Channel to Use Me❗\n\nDue To Overload, Only Channel Subscribers Can Use to Me❗.</b>",
                     reply_markup=InlineKeyboardMarkup(
                         [[
-                          InlineKeyboardButton("🤖 Join Our Bot Channel", url=f"https://t.me/{Var.UPDATES_CHANNEL}")],
-                         [InlineKeyboardButton("🔄 Refresh / Try Again", url=f"https://t.me/{(await b.get_me()).username}?start=Star_Bots_Tamil_{usr_cmd}")
-                        
+                            InlineKeyboardButton("🤖 Join Our Bot Channel", url=f"https://t.me/{Var.UPDATES_CHANNEL}")],
+                            [InlineKeyboardButton("🔄 Refresh / Try Again", url=f"https://t.me/{(await b.get_me()).username}?start=Star_Bots_Tamil_{usr_cmd}")
+
                         ]]
                     ),
                     parse_mode=ParseMode.HTML
@@ -115,7 +112,7 @@ async def start(b, m):
                     parse_mode=ParseMode.HTML,
                     disable_web_page_preview=True)
                 return
-            
+
         get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(usr_cmd))
 
         file_size = None
@@ -139,11 +136,11 @@ async def start(b, m):
                                      Var.PORT,
                                      get_msg.id)
 
-        msg_text = "**ᴛᴏᴜʀ ʟɪɴᴋ ɪs ɢᴇɴᴇʀᴀᴛᴇᴅ...⚡\n\n📧 ғɪʟᴇ ɴᴀᴍᴇ :-\n{}\n {}\n\n💌 ᴅᴏᴡɴʟᴏᴀᴅ ʟɪɴᴋ :- {}\n\n♻️ ᴛʜɪs ʟɪɴᴋ ɪs ᴘᴇʀᴍᴀɴᴇɴᴛ ᴀɴᴅ ᴡᴏɴ'ᴛ ɢᴇᴛ ᴇxᴘɪʀᴇᴅ ♻️\n\n<b>❖ YouTube.com/@itzjeol</b>**"
-        await m.reply_text(            
+        msg_text = "**Your Link is Generated...⚡\n\n📂 File Name :-\n{}\n🗄️ File Size :- {}\n\n💌 Download Link :- {}\n\n♻️ This Link is Permanent and Won't Get Expired ♻️\n\n<b>❖ @Star_Moviess_Tamil</b>**"
+        await m.reply_text(
             text=msg_text.format(file_name, file_size, stream_link),
-            
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⚡ ᴅᴏᴡɴʟᴏᴀᴅ ɴᴏᴡ ⚡", url=stream_link)]])
+
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⚡ Download Now ⚡", url=stream_link)]])
         )
         
 @StreamBot.on_message(filters.command("help") & filters.private )
