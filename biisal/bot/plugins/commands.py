@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 from biisal.bot.plugins.stream import MY_PASS
 from biisal.utils.human_readable import humanbytes
 from biisal.utils.database import Database
-from pyrogram import filters
+from pyrogram import filters, enums
 from urllib.parse import quote_plus
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import UserNotParticipant
@@ -246,7 +246,7 @@ async def attach(bot, message):
         text = await bot.send_message(
             chat_id=message.chat.id,
             text="<code>Downloading to My Server ...</code>",
-            parse_mode="html",
+            parse_mode=enums.ParseMode.HTML,
             disable_web_page_preview=True
         )
         await bot.download_media(message=message.reply_to_message, file_name=media)
