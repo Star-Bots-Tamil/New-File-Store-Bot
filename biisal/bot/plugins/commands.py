@@ -114,7 +114,7 @@ async def start(b, m):
 
         try:
             get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(usr_cmd))
-            caption = get_msg.caption
+            caption = f"<b>{get_msg.caption}</b>" if get_msg.caption else None
             if get_msg.video:
                 await m.reply_video(video=get_msg.video.file_id, caption=caption)
             elif get_msg.document:
