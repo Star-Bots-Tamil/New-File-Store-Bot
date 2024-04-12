@@ -265,11 +265,12 @@ async def attach(bot, message):
         os.remove(media)
     except:
         pass
-        
+
+    reply_to_message_id = reply_to_message.message_id
     await text.edit_text(f"[\u2063](https://telegra.ph{response[0]})<b>{message.text}</b>",
                          parse_mode=enums.ParseMode.HTML,
                          disable_web_page_preview=True,
-                         reply_to_message_id=reply_to_message.message_id)
+                         reply_to_message_id=reply_to_message_id)
     
 
 @StreamBot.on_callback_query()
