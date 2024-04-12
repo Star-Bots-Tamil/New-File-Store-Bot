@@ -240,32 +240,37 @@ async def do_unban(bot ,  message):
 
 @StreamBot.on_message(filters.text & filters.private)
 async def attach(bot, message):
-    media = "./DOWNLOADS/" + "{message.from_user.id}/AttachBot"
-    if message.reply_to_message is None:
-        await message.reply_text(text="Reply to a media to get an attached Media")
-    else:
-        text = await bot.send_message(
-            chat_id=message.chat.id,
-            text="<code>Downloading to My Server ...</code>",
-            parse_mode=enums.ParseMode.HTML,
-            disable_web_page_preview=True
-        )
-        await bot.download_media(message=message.reply_to_message, file_name=media)
-        await text.edit_text(text="<code>Downloading Completed. Now I am Uploading...</code>")
-        try:
-            response = upload_file(media)
-        except Exception as error:
-            print(error)
-            await text.edit_text(text=f"Error :- {error}", disable_web_page_preview=True)
-            return
-        await text.edit_text(text=f"[\u2063](https://telegra.ph{response[0]})<b>{message.text}</b>",
-                             parse_mode=enums.ParseMode.HTML,
-                             disable_web_page_preview=True,
-                             reply_to_message_id=message.reply_to_message.message_id)
-        try:
-            os.remove(media)
-        except:
-            pass 
+    reply_to_message = message.reply_to_message
+    if not reply_to_message:
+        return await message.reply('Reply to any photo or video.')
+    
+    file = reply_to_message.photo or reply_to_message.video or None
+    if file is None:
+        return await message.reply('Invalid media.')
+    
+    if file.file_size >= 5242880:
+        await message.reply_text(text="Send less than 5MB")   
+        return
+    
+    text = await message.reply_text(text="ᴘʀᴏᴄᴇssɪɴɢ....")   
+    media = await reply_to_message.download()  
+    
+    try:
+        response = upload_file(media)
+    except Exception as e:
+        await text.edit_text(text=f"Error - {e}")
+        return    
+    
+    try:
+        os.remove(media)
+    except:
+        pass
+        
+    await text.edit_text(f"[\u2063](https://telegra.ph{response[0]})<b>{message.text}</b>",
+                         parse_mode=enums.ParseMode.HTML,
+                         disable_web_page_preview=True,
+                         reply_to_message_id=reply_to_message.message_id)
+    
 
 @StreamBot.on_callback_query()
 async def cb_handler(client, query):
