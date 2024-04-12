@@ -14,6 +14,7 @@ db = Database(Var.DATABASE_URL, Var.name)
 from pyrogram.types import ReplyKeyboardMarkup
 from biisal.vars import bot_name , mv_rockers , movie_laab
 from biisal.utils.file_properties import get_name, get_hash, get_media_file_size
+from telegraph import upload_file
 
 SRT_TXT = """<b>Hello 👋🏻 {},\n
 I'm Star Bots Tamil's Official File to Link Bot (Link Generator Bot) With Channel Support. Maintained By :- <a href='https://t.me/Star_Bots_Tamil'>Star Bots Tamil</a>.\n
