@@ -240,7 +240,7 @@ async def do_unban(bot ,  message):
 
 @StreamBot.on_message(filters.text & filters.private)
 async def attach(bot, message):
-    media = "./DOWNLOADS/" + "StarBotsTamil/AttachBot"
+    media = "./DOWNLOADS/" + "{message.from_user.id}/AttachBot"
     if message.reply_to_message is None:
         await message.reply_text(text="Reply to a media to get an attached Media")
     else:
