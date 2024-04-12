@@ -247,8 +247,7 @@ async def attach(bot, message):
             chat_id=message.chat.id,
             text="<code>Downloading to My Server ...</code>",
             parse_mode="html",
-            disable_web_page_preview=True,
-            reply_to_message_id=message.message_id
+            disable_web_page_preview=True
         )
         await bot.download_media(message=message.reply_to_message, file_name=media)
         await text.edit_text(text="<code>Downloading Completed. Now I am Uploading...</code>")
@@ -258,7 +257,9 @@ async def attach(bot, message):
             print(error)
             await text.edit_text(text=f"Error :- {error}", disable_web_page_preview=True)
             return
-        await text.edit_text(text=f"[\u2063](https://telegra.ph{response[0]}){message.text}")
+        await text.edit_text(text=f"[\u2063](https://telegra.ph{response[0]}){message.text}",
+                             disable_web_page_preview=True,
+                             reply_to_message_id=message.reply_to_message.message_id)
         try:
             os.remove(media)
         except:
