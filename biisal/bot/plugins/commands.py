@@ -268,7 +268,7 @@ async def attach(bot, message):
 
     await text.edit_text(f"[\u2063](https://telegra.ph{response[0]})<b>{message.text}</b>",
                          parse_mode=enums.ParseMode.HTML,
-                         disable_web_page_preview=True,
+                         disable_web_page_preview=True
                         )
     
 
