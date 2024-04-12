@@ -15,11 +15,11 @@ from pyrogram.types import ReplyKeyboardMarkup
 from biisal.vars import bot_name , mv_rockers , movie_laab
 from biisal.utils.file_properties import get_name, get_hash, get_media_file_size
 
-SRT_TXT = """<b>𝙷𝚢 {} ㋛︎!,
-I ᴀᴍ Fɪʟᴇ ᴛᴏ Lɪɴᴋ Gᴇɴᴇʀᴀᴛᴏʀ Bᴏᴛ ᴡɪᴛʜ Cʜᴀɴɴᴇʟ sᴜᴘᴘᴏʀᴛ.
-
-Sᴇɴᴅ ᴍᴇ ᴀɴʏ ғɪʟᴇ ᴀɴᴅ ɢᴇᴛ ᴀ ᴅɪʀᴇᴄᴛ 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 ᴀɴᴅ 𝗪𝗮𝘁𝗰𝗵 ʟɪɴᴋ.!
-ᴍᴀɪɴᴛᴀɪɴᴇᴅ ʙʏ : <a href='https://t.me/Star_Bots_Tamil'>Star Bots Tamil</a></b>"""
+SRT_TXT = """<b>Hello 👋🏻 {},\n
+I'm Star Bots Tamil's Official File to Link Bot (Link Generator Bot) With Channel Support. Maintained By :- <a href='https://t.me/Star_Bots_Tamil'>Star Bots Tamil</a>.\n
+Click on /help to Get More Information.\n
+Warning 🚸\n
+🔞 Porn Contents Leads to Permanent Ban You. Check "About 😁"</b>"""
 
 @StreamBot.on_message(filters.command("start") & filters.private)
 async def start(b, m):
