@@ -237,6 +237,32 @@ async def do_unban(bot ,  message):
     else :
         await text.edit(f"<b>ғᴀɪʟᴇᴅ ᴛᴏ ᴜɴʙᴀɴ ᴜsᴇʀ/ᴄʜᴀɴɴᴇʟ.\nʀᴇᴀsᴏɴ : {unban_chk}</b>")
 
+@StreamBot.on_message(filters.text & filters.private)
+async def attach(bot, message):
+    media = "./DOWNLOADS/" + "StarBotsTamil/AttachBot"
+    if message.reply_to_message is None:
+        await message.reply_text(text="Reply to a media to get an attached Media")
+    else:
+        text = await bot.send_message(
+            chat_id=message.chat.id,
+            text="<code>Downloading to My Server ...</code>",
+            parse_mode="html",
+            disable_web_page_preview=True,
+            reply_to_message_id=message.message_id
+        )
+        await bot.download_media(message=message.reply_to_message, file_name=media)
+        await text.edit_text(text="<code>Downloading Completed. Now I am Uploading...</code>")
+        try:
+            response = upload_file(media)
+        except Exception as error:
+            print(error)
+            await text.edit_text(text=f"Error :- {error}", disable_web_page_preview=True)
+            return
+        await text.edit_text(text=f"[\u2063](https://telegra.ph{response[0]}){message.text}")
+        try:
+            os.remove(media)
+        except:
+            pass 
 
 @StreamBot.on_callback_query()
 async def cb_handler(client, query):
