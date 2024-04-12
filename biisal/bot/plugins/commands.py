@@ -116,13 +116,13 @@ async def start(b, m):
             get_msg = await b.get_messages(chat_id=Var.BIN_CHANNEL, message_ids=int(usr_cmd))
             caption = f"<b>{get_msg.caption}</b>" if get_msg.caption else None
             if get_msg.video:
-                await m.reply_video(video=get_msg.video.file_id, caption=caption)
+                await m.reply_video(video=get_msg.video.file_id, caption=caption, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔥 Powered By", url="https://t.me/Star_Moviess_Tamil")]]))
             elif get_msg.document:
-                await m.reply_document(document=get_msg.document.file_id, caption=caption)
+                await m.reply_document(document=get_msg.document.file_id, caption=caption, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔥 Powered By", url="https://t.me/Star_Moviess_Tamil")]]))
             elif get_msg.audio:
-                await m.reply_audio(audio=get_msg.audio.file_id, caption=caption)
+                await m.reply_audio(audio=get_msg.audio.file_id, caption=caption, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔥 Powered By", url="https://t.me/Star_Moviess_Tamil")]]))
             elif get_msg.photo:
-                await m.reply_photo(photo=get_msg.photo[-1].file_id, caption=caption)  # Reply with the last photo in the list
+                await m.reply_photo(photo=get_msg.photo[-1].file_id, caption=caption, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔥 Powered By", url="https://t.me/Star_Moviess_Tamil")]]))  # Reply with the last photo in the list
         except ValueError:
             await m.reply_text("Invalid file ID. Please provide a valid file ID.")
 
